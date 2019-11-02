@@ -1,0 +1,30 @@
+/ - [static], friendly homepage + simple search form (was: /web/Search.html)
+
+/information - [static] friendly background, contact and help
+
+/search - [dynamic] User-facing search results page 
+/books - [static], list of books in library
+/books/MMM - [static], metadata of book + ISBN links + page links (was: /web/ShowMetaData.html?scanId=MMM)
+/books/MMM/pages - [static], all content of book (was: /GetBooks.html?scanId=)
+/books/MMM/pages?highlight=string - [dynamic] string/works to highlight (/GetBooks.html?scanId=MMM&query=ssss)
+
+/search?q= - Results/Advanced search (was: /web/Search.html?q=)
+/search?after=YYYY-mm-dd&before=YYYY (lower/upper date ranges; default to 1700-01-01 00:00 --2100-12-31 23:59)
+
+/search?sort=best - sort by relevance, highest (was: `f_sort=0`)
+/search?sort=year - sort by time, chronologically (was: `f_sort=1`)
+/search?sort=author - sort by author, alphabetically (was: `f_sort=2`)
+
+/search?author=AAA - restrict view based on second search within authors
+
+/search?start=NNN - offset into results (see: `page=NNN`)
+/search?limit=NNN - number of results to show (was: `maxresultsperpage=NNN`
+
+Possible follow-on expansion:
+/authors - [cached], list of known authors (subset of authors in Zotero, in CLAS bibliography)
+/authors/AAA - [cached] information on one author (Wikipedia/VIAF links; links to /books/MMM held in CLAS Digital)
+/years/ - list of known year (subset of actual years, in CLAS biblography)
+/years/YYYY - list of works from that year; links to /books/MMM held in CLAS Digital
+/books/MMM/pages/NNN - single page of book
+
+
