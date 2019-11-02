@@ -187,8 +187,8 @@ void do_search(const Request& req, Response &resp, const std::string &fileSearch
 	    bool auth_only = false;
 	    bool ocr_only = false;
 	    std::string author = "";
-	    int pubafter = 0;
-	    int pubbef = 2019;
+	    int after = 1700;
+	    int before = 2100;
 	    std::vector<std::string> pillars;
 	    std::string debugpill;
 	    int resultsperpage = 10;
@@ -216,18 +216,18 @@ void do_search(const Request& req, Response &resp, const std::string &fileSearch
 		own_split(debugpill,',',pillars);
 	    }
 
-	    try{pubafter = std::stoi(req.get_param_value("publicatedafter"));}catch(...){};
-	    try{pubbef = std::stoi(req.get_param_value("publicatedbefore"));}catch(...){};
+	    try{after = std::stoi(req.get_param_value("after"));}catch(...){};
+	    try{before = std::stoi(req.get_param_value("before"));}catch(...){};
 	    try{page = std::stoi(req.get_param_value("page"));}catch(...){};
 	    try{sort = std::stoi(req.get_param_value("f_sort",0));}catch(...){};
 	    try{resultsperpage = std::stoi(req.get_param_value("maxresultsperpage",0));}catch(...){};
 
 
 	    std::cout<<"Receveived search request!"<<std::endl;
-	    std::cout<<"Query: "<<query<<"; fuzz: "<<fuzz<<"; title only: "<<auth_only<<"; ocr only: "<<ocr_only<<"; author: "<<author<<"; publicated after: "<<pubafter<<"; publicated before: "<<pubbef<<"; searched pillars: "<<debugpill<<"; vector pillar size: "<<pillars.size()<<"; sorting with value: "<<sort<<" and max results per page: "<<resultsperpage<<std::endl;
+	    std::cout<<"Query: "<<query<<"; fuzz: "<<fuzz<<"; title only: "<<auth_only<<"; ocr only: "<<ocr_only<<"; author: "<<author<<"; published after: "<<after<<"; published before: "<<before<<"; searched pillars: "<<debugpill<<"; vector pillar size: "<<pillars.size()<<"; sorting with value: "<<sort<<" and max results per page: "<<resultsperpage<<std::endl;
 
 
-	    CSearchOptions options(query,fuzz,pillars,auth_only,ocr_only,author,pubafter,pubbef,true,sort);
+	    CSearchOptions options(query,fuzz,pillars,auth_only,ocr_only,author,after,before,true,sort);
 	    std::cout<<"Starting search!"<<std::endl;
 
 	    auto start = std::chrono::system_clock::now();

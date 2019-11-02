@@ -333,8 +333,8 @@ function sendToPage(name)
       jsonFile += ',"author":""';
     else
       jsonFile += ',"author":"'+document.getElementById("SearchForAuthor").value+'"';
-    jsonFile += ',"publicatedafter":'+document.getElementById("PublicatedAfter").value;
-    jsonFile +=  ',"publicatedbefore":' + document.getElementById("PublicatedBefore").value;
+    jsonFile += ',"after":'+document.getElementById("PublishedAfter").value;
+    jsonFile +=  ',"before":' + document.getElementById("PublishedBefore").value;
     jsonFile += "}";
 
     

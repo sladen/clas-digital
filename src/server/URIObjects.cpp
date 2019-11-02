@@ -278,8 +278,8 @@ void GetSearchHandler::onRequest(std::unique_ptr<proxygen::HTTPMessage> headers)
 		std::string author = headers->getDecodedQueryParam("author");
 		std::string srchway = headers->getDecodedQueryParam("sortway");
 		int Fuzzyness = headers->getIntQueryParam("fuzzyness",0);
-		int from = headers->getIntQueryParam("publicatedafter",0);
-		int to = headers->getIntQueryParam("publicatedbefore",0);
+		int after = headers->getIntQueryParam("after",0);
+		int before = headers->getIntQueryParam("before",0);
 		bool onlyTitle = false;
 		bool ocrOnly = false;
 		std::vector<std::string> pillars;
@@ -293,7 +293,7 @@ void GetSearchHandler::onRequest(std::unique_ptr<proxygen::HTTPMessage> headers)
 			onlyTitle = true;
 		if(headers->getDecodedQueryParam("ocr_only")=="true")
 			ocrOnly = true;
-		alx::cout<<"Search for: "<<word<<" author: "<<author<<" Fuzzyness: "<<Fuzzyness<<" released before: "<<from<<" and after: "<<to<<"\nSearch only title "<<onlyTitle<<alx::endl<<"Search only ocr: "<<ocrOnly<<alx::endl;
+		alx::cout<<"Search for: "<<word<<" author: "<<author<<" Fuzzyness: "<<Fuzzyness<<" released after: "<<after<<" and before: "<<before<<"\nSearch only title "<<onlyTitle<<alx::endl<<"Search only ocr: "<<ocrOnly<<alx::endl;
 		alx::cout<<"Pillars: ";
 		for(auto &it : pillars)
 		{
@@ -306,7 +306,7 @@ void GetSearchHandler::onRequest(std::unique_ptr<proxygen::HTTPMessage> headers)
 			alx::cout<<"true filter\n";
 		else
 			alx::cout<<"false filter\n";
-		CSearchOptions *nso = new CSearchOptions(word,Fuzzyness,std::move(pillars),onlyTitle,ocrOnly,std::move(author),from,to,true,srchway=="sortbyrevelance");
+		CSearchOptions *nso = new CSearchOptions(word,Fuzzyness,std::move(pillars),onlyTitle,ocrOnly,std::move(author),after,before,true,srchway=="sortbyrevelance");
 
 		static std::atomic<unsigned long long> unique_sid = 0;
 		long long searchid = unique_sid.fetch_add(1);
@@ -374,7 +374,7 @@ void GetSearchInBookHandler::onRequest(std::unique_ptr<proxygen::HTTPMessage> he
 
 		mapPtr = std::unique_ptr<std::map<int,std::vector<std::string>>>(book.getPages(std::move(searchFor),Fuzzyness));
 
-		auto glambda = [](std::string const &str, std::string const &from,std::string const &to) -> std::string {return std::regex_replace(str,std::regex(from),to);};
+		auto glambda = [](std::string const &str, std::string const &after,std::string const &before) -> std::string {return std::regex_replace(str,std::regex(after),before);};
 		for(auto const &it : *mapPtr)
 		{
 			if(Fuzzyness==0)

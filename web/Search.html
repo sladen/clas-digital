@@ -311,13 +311,13 @@ function SetAdvancedAuthor(x)
     document.getElementById("SearchForAuthor").value=x.value;
 }
 
-function SetAdvancedDateFrom(x)
-{
-    document.getElementById("PublicatedBefore").value=x.value;
-}
 function SetAdvancedDateAfter(x)
 {
-    document.getElementById("PublicatedAfter").value=x.value;
+    document.getElementById("PublishedAfter").value=x.value;
+}
+function SetAdvancedDateBefore(x)
+{
+    document.getElementById("PublishedBefore").value=x.value;
 }
 function SetAdvancedOnlyIn(x)
 {
@@ -351,14 +351,14 @@ function ShowSelectedValues(obj)
 	obj.innerHTML = "";
 	let json = obj.drawablejson;
     let author = "Author: <input id='author' onchange='SetAdvancedAuthor(this);return true;' class='specialultbut' style='background:white;margin-right:0.5;border:0;' type='text' value='' </input>";
-    let dateFrom = "Before: <input id='PublicatedBefore' onchange='SetAdvancedDateFrom(this);return true;' class='specialultbut' style='background:white;margin-right:0.5;border:0;' size='5' type='number' step='1' min='0' value='0'>";
-    let dateAfter= "After: <input id='PublicatedAfter' onchange='SetAdvancedDateAfter(this);return true;' class='specialultbut' style='background:white;margin-right:0.5;border:0;' size='5' type='number' step='1' min='0' value='0'>";
+    let dateAfter= "After: <input id='PublishedAfter' onchange='SetAdvancedDateAfter(this);return true;' class='specialultbut' style='background:white;margin-right:0.5;border:0;' size='5' type='number' step='1' min='0' value='0'>";
+    let dateBefore = "Before: <input id='PublishedBefore' onchange='SetAdvancedDateBefore(this);return true;' class='specialultbut' style='background:white;margin-right:0.5;border:0;' size='5' type='number' step='1' min='0' value='0'>";
     let onlyIn = "<select id='fuzzyness' onchange='SetAdvancedOnlyIn(this);return true;' class='specialultbut' style='background:white;margin-right:0.5;border:0;'><option value='0'>Search Everything</option><option value='1'>Search only Metadata</option><option value='2'>Search only Text</option></select>";
     let fuzzy = "<select id='fuzzyness' onchange='SetAdvancedFuzzy(this);return true;' class='specialultbut' style='background:white;margin-right:0.5;border:0;'><option value='0'>Exact matches</option><option value='1'>Fuzzy matching</option></select>";
     let results = "<select id='maxresultsperpage' onchange='OpenFilter(this);return true;' class='specialultbut' style='background:white;margin-right:0.5rem;border:0;'><option value='10'>Show 10 results per page</option><option value='20'>Show 20 results per page</option><option value='50'>Show 50 results per page</option><option value='1000000'>Show all results</option></select>";
     let sort = "<select id='f_sort' onchange='OpenFilter(this);return true;' class='specialultbut' onclick='return true;' style='background:white;margin-right: 0.5rem;border: 0;'><option value='0'>Sort by relevance</option><option value='2'>Sort alphabetically</option><option value='1'>Sort chronologically</option></select>";
     let bib = "<button class='specialultbut' style='background:white;border: 0;' onclick='CreateBibliography();return true;'>Create Bibliography</button></div><hr style='padding: 0;'>";
-    document.getElementById("ResultBanner").innerHTML ="<div style='margin-top: 2rem;margin-bottom:0;'>" + author + dateFrom + dateAfter + onlyIn + fuzzy + results + sort + bib +"<span style='color: grey;'>"+json.max_results+" Ergebnisse gefunden in "+json.time+"s</span>";
+    document.getElementById("ResultBanner").innerHTML ="<div style='margin-top: 2rem;margin-bottom:0;'>" + author + dateAfter + dateBefore + onlyIn + fuzzy + results + sort + bib +"<span style='color: grey;'>"+json.max_results+" Ergebnisse gefunden in "+json.time+"s</span>";
 	if(json.max_results==0)
 	    return;
 	obj.start = json.show_from;
@@ -480,10 +480,11 @@ function sendToPage(name)
 	    requ += "&ocr_only=true";
 	if(document.getElementById("SearchForAuthor").value != "")
 		requ += "&author="+document.getElementById("SearchForAuthor").value;
-	if(document.getElementById("PublicatedAfter").value != 0)
-	    requ += "&publicatedafter="+document.getElementById("PublicatedAfter").value;
-	if(document.getElementById("PublicatedBefore").value != 2019)
-	    requ +=  "&publicatedbefore="+ document.getElementById("PublicatedBefore").value;
+        /* Compare to JSON-supplied default values */
+	if(document.getElementById("PublishedBefore").value != "")
+	    requ +=  "&before="+ document.getElementById("PublishedBefore").value;
+	if(document.getElementById("PublishedAfter").value != "")
+	    requ += "&after="+document.getElementById("PublishedAfter").value;
 	let myList = document.getElementsByClassName("upSaule");
 	
 	let val = "";
@@ -565,8 +566,8 @@ function LoadSearchData(sp)
 	document.getElementById("FuzzyID").value = sp.fuzzyness;
 	document.getElementById("SearchInTitle").checked = sp.title_only;
 	document.getElementById("SearchForAuthor").value = sp.author_name;
-	document.getElementById("PublicatedAfter").value = sp.pub_after;
-	document.getElementById("PublicatedBefore").value = sp.pub_before;
+	document.getElementById("PublishedAfter").value = sp.after;
+	document.getElementById("PublishedBefore").value = sp.before;
 	
 	document.getElementById('SliderNum').innerHTML = getSliderValue(sp.fuzzyness);
 	let pill = document.getElementsByClassName("upSaule");
@@ -586,8 +587,8 @@ function ApplySearchData()
 	search_parameters.title_only = document.getElementById("SearchInTitle").checked;
 	search_parameters.ocr_only = document.getElementById("SearchInOCR").checked;
 	search_parameters.author_name = document.getElementById("SearchForAuthor").value;
-	search_parameters.pub_after = document.getElementById("PublicatedAfter").value;
-	search_parameters.pub_before = document.getElementById("PublicatedBefore").value;
+	search_parameters.after = document.getElementById("PublishedAfter").value;
+	search_parameters.before = document.getElementById("PublishedBefore").value;
 	let pill = document.getElementsByClassName("upSaule");
 	search_parameters.pillars = null;
 	for(let i = 0; i < pill.length; i++)
@@ -634,9 +635,9 @@ function ShowLinks()
 
 	if(getParameterByName('author')!=null) document.getElementById("SearchForAuthor").value =  getParameterByName('author');
 
-	  if(getParameterByName('publicatedafter')!=null) document.getElementById("PublicatedAfter").value = parseInt(getParameterByName('publicatedafter'));
+	if(getParameterByName('after')!=null) document.getElementById("PublishedAfter").value = getParameterByName('after');
 
-	  if(getParameterByName('publicatedbefore')!=null) document.getElementById("PublicatedBefore").value = parseInt(getParameterByName('publicatedbefore'));
+	if(getParameterByName('before')!=null) document.getElementById("PublishedBefore").value = getParameterByName('before');
 	
 	if(getParameterByName('pillars')!=null)
 	{
@@ -767,10 +768,10 @@ function ShowLinks()
 					<input id="SearchForAuthor" type="text" value="">
 				</div>
 				<div class="checker">
-					<p class="slider">Search only in books publicated from</p>
-					<input id="PublicatedAfter" type="number" step="1" min="0" value="0">
-					<p class="slider"> until </p>
-					<input id="PublicatedBefore" type="number" step="1" min="1" value="2019">
+					<p class="slider">Search only in books published after</p>
+					<input id="PublishedAfter" type="number" step="100" min="1700" max="2100" value="1700">
+					<p class="slider"> + before </p>
+					<input id="PublishedBefore" type="number" step="100" min="1700" max="2100" value="2100">
 				</div>			
 				<div>
 					<button class='btn btn-outline-success my2 my-sm-0 inlineButton' onclick="ApplySearchData();">Apply</button>
