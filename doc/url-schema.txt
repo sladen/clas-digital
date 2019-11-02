@@ -28,3 +28,12 @@ Possible follow-on expansion:
 /books/MMM/pages/NNN - single page of book
 
 
+Other existing end-points;  document and/or move under /api
+/api
+/userlist
+/private
+/createbibliography
+/login
+/searchinbook
+/getmetadata
+/authenticate
