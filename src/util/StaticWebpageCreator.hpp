@@ -76,7 +76,7 @@ class StaticWebpageCreator
 
 
 			inja::Environment env;
-			inja::Template temp = env.parse_template("web/books/metadata_template.html");
+			inja::Template temp = env.parse_template("web/books/index.jinja.html");
 			std::string result = env.render(temp, info);
 			std::ofstream ofs("web/books/"+m_book->getKey()+"/index.html",std::ios::out);
 			ofs<<result;
@@ -91,7 +91,7 @@ class StaticWebpageCreator
 			js["bib"] = escape_characters(m_info["bib"].get<std::string>());
 			js["bib_esc"] = cutter(replacer(m_info["bib"].get<std::string>(),'"',"&quot;"),'\n');
 			inja::Environment env;
-			inja::Template temp = env.parse_template("web/books/pages_template.html");
+			inja::Template temp = env.parse_template("web/books/pages/index.jinja.html");
 			std::string result = env.render(temp, js);
 			std::ofstream ofs("web/books/"+m_book->getKey()+"/pages/index.html",std::ios::out);
 			ofs<<result;
