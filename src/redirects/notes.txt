@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# extract nginx-style redirect snippets from `git` history
+git diff -M c9bc3c0ad2 | grep -A1 ^'rename from' | sed -e '/^rename from/{N;s/^rename from \(.*\)\n/rewrite ^\/\1\$ /;s/rename to \(.*\)/\/\1 permanent;/;p};d'
