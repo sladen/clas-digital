@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<link rel="shortcut icon" href="/static/fav/hand-top-right-16+32+48.ico"/>
+    <head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" href="/static/fav/hand-top-right-16+32+48.ico"/>
         <title> {{ title }} </title>
-
-		<link rel="canonical" href="https://www.clas-digital.uni-frankfurt.de/books/{{ key }}"/>
-
-		<link rel="stylesheet" type="text/css" href="/static/books.css"/>
+	<link rel="canonical" href="https://www.clas-digital.uni-frankfurt.de/books/{{ key }}"/>
+	<link rel="stylesheet" type="text/css" href="/static/books.css"/>
         <link rel="stylesheet" type="text/css" href="/style/metadata.css"/>
         <link rel="stylesheet" type="text/css" href="/topnav.css"/>
-        <script src="/user.js"></script>
+        <script type="text/javascript" src="/user.js"/>
 
     <style>
     .topnav .dropdown .dropdown-content a {
@@ -24,10 +22,9 @@
 
     </head>
 
-	<body itemscope itemtype="http://schema.org/Book">
+    <body itemscope itemtype="http://schema.org/Book">
 	    {% include "../catalogue/template_navbar.html" %}
 
-        <div class="metadata">
             <h1> {{ show }} </h1>
             <nav id='booklcontentlink'>
                 <ul>
@@ -38,66 +35,32 @@
 
                 </ul>
             </nav>
-            <section>
+            <section class="metadata">
             <dl>
-                <table>
-                <tr>
-                    <td><dt id="itemType"><b>Item Type:</b></td>
-                    <td><dd>{{ itemType }}</dd></td>
-                </tr>
-                
-                <tr>
-                    <td><dt id="title"><b>Title:</b></dt></td>
-                    <td><dd itemprop="name"> {{ title }}</dd></td>
-                </tr>
-                
-                <tr>
-                    <td><dt id='author'><b>Author:</b></dt></td>
-                    <td><dd itemprop="author" itemscope itemtype="http://schema.org/Person">
-                    <span itemprop="name">
-                        <ul>
-                            {% for author in authors %}
-                            <li>{{ author }}</li>
-                            {% endfor %}
-                        </ul>
-                    </span>
-                    </dd></td>
-                </tr>
-
-                <tr>
-                    <td><dt id="place"><b>Place:</b></dt></td>
-                    <td><dd itemscope itemtype="http://schema.org/Place">
-                    <span itemprop="name">
-                        {{ place }}
-                    </span>
-                    </dd></td>
-                </tr>
-
-                <tr>
-                    <td><dt id="date"><b>Date:</b> </dt></td>
-                    <td><dd itemprop="datePublished">
-                    {{ date }}
-                    </dd></td>
-                </tr>
-
+                <dt id="itemType">Item Type:
+                    <dd>{{ itemType }}</dd>
+                <dt id="title">Title:</dt>
+                    <dd itemprop="name"> {{ title }}</dd>
+                <dt id="author">Author:</dt>
+                {% for author in authors %}
+                    <dd itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <span itemprop="name">{{ author }}</span>
+                    </dd>
+                {% endfor %}
+                <dt id="place">Place:</dt>
+                    <dd itemscope itemtype="http://schema.org/Place">
+                    <span itemprop="name">{{ place }}</span>
+                    </dd>
+                <dt id="date">Date:</dt>
+                    <dd itemprop="datePublished">{{ date }}</dd></td>
                 {% if hasISBN %}
-                <tr>
-                    <td><dt id="isbn"><b>ISBN:</b></dt></td>
-                    <td><dd itemprop="isbn">
-                        {{ isbn }}
-                    </dd></td>
-                </tr>
+                <dt id="isbn">ISBN:</dt>
+                    <dd itemprop="isbn">{{ isbn }}</dd>
                 {% endif %}
-
-                <tr>
-                    <td><dt id="bib"><b>Bibliography: </b></dt></td>
-                    <td><dd>{{ bib }}</dd></td>
-                </tr>
-                </table>
-
-	        </dl>
-		    </section>
-        </div>
-	</body>
+                <dt id="bib">Bibliography:</dt>
+                    <dd>{{ bib }}</dd>
+	    </dl>
+	</section>
+    </body>
 </html>
 

@@ -1,2 +1,10 @@
 /* space out clickable links to meet mobile accessibility requirements */
 nav li { margin-top: 1em; margin-bottom: 1em; } 
+
+
+/* migrated from 'metadata.css' */
+.metadata {
+    margin-top: 3rem;
+    margin-left: 5rem;
+    margin-right: 10rem;
+}
